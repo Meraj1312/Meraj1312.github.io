@@ -1,55 +1,90 @@
-import { getAllRepos } from "@/lib/github"
-import { CyberNav } from "@/components/cyber-nav"
-import { Hero } from "@/components/hero"
-import { RepoCard } from "@/components/repo-card"
+import { Hero } from "@/components/hero";
+import { CyberNav } from "@/components/cyber-nav";
+import { RepoCard } from "@/components/repo-card";
+import { getProjects } from "@/lib/github";
 
-export const revalidate = 1800
+export const revalidate = 1800;
 
 export default async function HomePage() {
-  const repos = await getAllRepos()
-  const totalStars = repos.reduce((sum, r) => sum + r.stargazers_count, 0)
+  const repos = await getProjects();
+
+  const totalStars = repos.reduce(
+    (sum, repo) => sum + repo.stargazers_count,
+    0
+  );
 
   return (
-    <div className="scanlines min-h-screen">
+    <div className="relative min-h-screen">
       <CyberNav />
-      <main>
-        <Hero repoCount={repos.length} totalStars={totalStars} />
 
-        <section className="mx-auto max-w-6xl px-4 py-12">
-          <div className="mb-6 flex items-center gap-3">
-            <h2 className="text-lg font-bold text-primary">
-              <span className="text-muted-foreground">const</span> repositories{" "}
-              <span className="text-muted-foreground">=</span> [
+      <main>
+        <Hero
+          repoCount={repos.length}
+          totalStars={totalStars}
+        />
+
+        <section
+          id="repositories"
+          className="mx-auto max-w-7xl px-6 py-24"
+        >
+          <div className="mb-14">
+            <span className="rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-xs text-green-400">
+              Projects
+            </span>
+
+            <h2 className="mt-5 text-5xl font-black">
+              Featured Projects
             </h2>
-            <div className="h-px flex-1 bg-border" />
+
+            <p className="mt-5 max-w-2xl leading-8 text-zinc-400">
+              Offensive security tools, research projects, exploit labs and
+              security engineering work. Every project is synchronized directly
+              from GitHub and updates automatically whenever new commits are
+              pushed.
+            </p>
           </div>
 
           {repos.length === 0 ? (
-            <div className="rounded-md border border-destructive/40 bg-destructive/5 p-6 text-center text-sm text-muted-foreground">
-              <p className="text-destructive">! Unable to reach GitHub API.</p>
-              <p className="mt-1">
-                This is usually a rate limit. Add a GITHUB_TOKEN environment
-                variable and refresh.
+            <div className="rounded-3xl border border-green-500/10 bg-black/30 p-12 text-center backdrop-blur-xl">
+              <h3 className="text-2xl font-bold">
+                Unable to load projects
+              </h3>
+
+              <p className="mt-3 text-zinc-400">
+                GitHub API rate limit reached or the repositories are
+                temporarily unavailable.
               </p>
             </div>
           ) : (
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-2">
               {repos.map((repo) => (
-                <RepoCard key={repo.id} repo={repo} />
+                <RepoCard
+                  key={repo.id}
+                  repo={repo}
+                />
               ))}
             </div>
           )}
-
-          <p className="mt-6 text-lg font-bold text-primary">]</p>
         </section>
       </main>
 
-      <footer className="border-t border-border">
-        <div className="mx-auto max-w-6xl px-4 py-6 text-xs text-muted-foreground">
-          <span className="text-primary">$</span> echo &quot;built with next.js ·
-          synced with github · {new Date().getFullYear()}&quot;
+      <footer className="border-t border-green-500/10">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-8">
+          <div>
+            <p className="font-semibold">
+              Mohammad Meraj Khan
+            </p>
+
+            <p className="mt-1 text-sm text-zinc-500">
+              Offensive Security • Penetration Testing • Security Research
+            </p>
+          </div>
+
+          <p className="text-sm text-zinc-500">
+            © {new Date().getFullYear()}
+          </p>
         </div>
       </footer>
     </div>
-  )
+  );
 }

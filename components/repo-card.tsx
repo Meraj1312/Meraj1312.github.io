@@ -1,58 +1,202 @@
-import Link from "next/link"
-import { Star, GitFork, ArrowUpRight, Circle } from "lucide-react"
-import { type Repo, langColor, timeAgo } from "@/lib/github"
+import Link from "next/link";
+import {
+  ArrowUpRight,
+  Circle,
+  GitFork,
+  Star,
+  Clock3,
+} from "lucide-react";
+
+import { type Repo, langColor, timeAgo } from "@/lib/github";
 
 export function RepoCard({ repo }: { repo: Repo }) {
   return (
     <Link
       href={`/repos/${repo.name}`}
-      className="group relative flex flex-col rounded-md border border-border bg-card/60 p-5 transition-all hover:border-primary/60 hover:bg-card hover:box-glow"
+      className="
+        group
+        relative
+        isolate
+        overflow-hidden
+        rounded-3xl
+
+        border
+        border-white/10
+
+        bg-white/[0.04]
+        backdrop-blur-2xl
+
+        p-6
+
+        transition-all
+        duration-500
+
+        hover:-translate-y-2
+        hover:scale-[1.02]
+
+        hover:border-green-400/40
+
+        hover:shadow-[0_0_30px_rgba(34,197,94,.18),0_0_80px_rgba(34,197,94,.08)]
+      "
     >
-      <div className="flex items-start justify-between gap-3">
-        <h2 className="font-bold text-foreground transition-colors group-hover:text-primary">
-          <span className="text-primary/60">~/</span>
-          {repo.name}
-        </h2>
-        <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-transparent to-green-500/10 opacity-0 transition duration-500 group-hover:opacity-100" />
+
+      {/* Top Glow */}
+      <div
+        className="
+          absolute
+          top-0
+          right-0
+          h-40
+          w-40
+          rounded-full
+          bg-green-500/10
+          blur-2xl
+          opacity-0
+          transition
+          duration-500
+          group-hover:opacity-100
+        "
+      />
+
+      {/* Bottom Glow */}
+      <div
+        className="
+          absolute
+          bottom-0
+          left-0
+          h-40
+          w-40
+          rounded-full
+          bg-green-400/8
+          blur-2xl
+          opacity-0
+          transition
+          duration-500
+          group-hover:opacity-100
+        "
+      />
+      {/* Shine */}
+      <div className="absolute inset-0 overflow-hidden rounded-3xl">
+        <div
+          className="
+            absolute
+            -left-full
+            top-0
+            h-full
+            w-1/2
+            rotate-12
+            bg-gradient-to-r
+            from-transparent
+            via-white/10
+            to-transparent
+            transition-all
+            duration-1000
+            group-hover:left-[140%]
+          "
+        />
       </div>
 
-      <p className="mt-2 line-clamp-2 min-h-[2.5rem] text-sm text-muted-foreground">
-        {repo.description ?? "No description provided."}
-      </p>
+      <div className="relative z-10">
 
-      {repo.topics?.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {repo.topics.slice(0, 4).map((t) => (
-            <span
-              key={t}
-              className="rounded-sm border border-border px-1.5 py-0.5 text-[11px] text-accent"
-            >
-              {t}
-            </span>
-          ))}
+        {/* Header */}
+
+        <div className="flex items-start justify-between">
+
+          <div>
+
+            <h2 className="text-xl font-semibold tracking-tight transition-colors duration-300 group-hover:text-green-400">
+              {repo.name}
+            </h2>
+
+            <p className="mt-3 min-h-[52px] text-sm leading-6 text-muted-foreground">
+              {repo.description ??
+                "Security project synchronized from GitHub."}
+            </p>
+
+          </div>
+
+          <ArrowUpRight
+            className="
+              h-5
+              w-5
+              text-muted-foreground
+              transition-all
+              duration-300
+              group-hover:-translate-y-1
+              group-hover:translate-x-1
+              group-hover:text-green-400
+            "
+          />
+
         </div>
-      )}
 
-      <div className="mt-4 flex flex-wrap items-center gap-4 border-t border-border pt-3 text-xs text-muted-foreground">
-        {repo.language && (
-          <span className="flex items-center gap-1.5">
-            <Circle
-              className="h-2.5 w-2.5"
-              style={{ color: langColor(repo.language), fill: langColor(repo.language) }}
-            />
-            {repo.language}
-          </span>
+        {/* Topics */}
+
+        {repo.topics?.length > 0 && (
+          <div className="mt-6 flex flex-wrap gap-2">
+            {repo.topics.slice(0, 5).map((topic) => (
+              <span
+                key={topic}
+                className="
+                  rounded-full
+                  border
+                  border-white/10
+                  bg-white/[0.04]
+                  px-3
+                  py-1
+                  text-xs
+                  text-green-300
+                  transition-all
+                  duration-300
+                  group-hover:border-green-400/30
+                  group-hover:bg-green-500/10
+                "
+              >
+                {topic}
+              </span>
+            ))}
+          </div>
         )}
-        <span className="flex items-center gap-1">
-          <Star className="h-3.5 w-3.5" />
-          {repo.stargazers_count}
-        </span>
-        <span className="flex items-center gap-1">
-          <GitFork className="h-3.5 w-3.5" />
-          {repo.forks_count}
-        </span>
-        <span className="ml-auto">updated {timeAgo(repo.pushed_at)}</span>
+
+        {/* Footer */}
+
+        <div className="mt-8 flex flex-wrap items-center gap-5 border-t border-white/10 pt-5 text-sm">
+
+          {repo.language && (
+            <div className="flex items-center gap-2">
+
+              <Circle
+                className="h-3 w-3 fill-current"
+                style={{
+                  color: langColor(repo.language),
+                }}
+              />
+
+              <span>{repo.language}</span>
+
+            </div>
+          )}
+
+          <div className="flex items-center gap-1.5 text-muted-foreground">
+            <Star className="h-4 w-4" />
+            {repo.stargazers_count}
+          </div>
+
+          <div className="flex items-center gap-1.5 text-muted-foreground">
+            <GitFork className="h-4 w-4" />
+            {repo.forks_count}
+          </div>
+
+          <div className="ml-auto flex items-center gap-1.5 text-muted-foreground">
+            <Clock3 className="h-4 w-4" />
+            {timeAgo(repo.pushed_at)}
+          </div>
+
+        </div>
+
       </div>
     </Link>
-  )
+  );
 }

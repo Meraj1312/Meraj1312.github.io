@@ -1,90 +1,165 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { GITHUB_USER } from "@/lib/github"
+import { GlitchText } from "@/components/glitch-text";
+import { Terminal } from "@/components/terminal";
+import { ArrowRight, BookOpen } from "lucide-react";
+import { GITHUB_USER } from "@/lib/github";
 
-const LINES = [
-  "$ whoami",
-  `> ${GITHUB_USER} :: penetration tester / security researcher`,
-  "$ cat ./focus.txt",
-  "> offensive security · SIEM · CVE research · red team tooling",
-  "$ ls ./repos --live-sync=github",
-]
+function GithubIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.1-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.08 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .3.2.66.79.55A11.51 11.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z" />
+    </svg>
+  );
+}
 
-export function Hero({ repoCount, totalStars }: { repoCount: number; totalStars: number }) {
-  const [shown, setShown] = useState<string[]>([])
-
-  useEffect(() => {
-    let i = 0
-    const id = setInterval(() => {
-      i += 1
-      setShown(LINES.slice(0, i))
-      if (i >= LINES.length) clearInterval(id)
-    }, 380)
-    return () => clearInterval(id)
-  }, [])
-
+export function Hero({
+  repoCount,
+  totalStars,
+}: {
+  repoCount: number;
+  totalStars: number;
+}) {
   return (
     <section className="relative overflow-hidden border-b border-border">
-      <div className="cyber-grid absolute inset-0 opacity-60" aria-hidden />
-      <div className="relative mx-auto max-w-6xl px-4 py-16 md:py-24">
-        <div className="mb-6 inline-flex items-center gap-2 rounded-sm border border-primary/40 bg-primary/5 px-3 py-1 text-xs text-primary">
-          <span className="h-2 w-2 rounded-full bg-primary cursor-blink" />
-          SYSTEM ONLINE · SYNCED WITH GITHUB
-        </div>
+      <div className="mx-auto max-w-7xl px-6 py-20 lg:py-28">
 
-        <h1 className="max-w-3xl text-balance text-4xl font-bold leading-tight text-foreground md:text-6xl">
-          <span className="text-glow text-primary">Breaking</span> systems,{" "}
-          <span className="text-accent">documenting</span> the how.
-        </h1>
-        <p className="mt-4 max-w-2xl text-pretty text-muted-foreground md:text-lg">
-          A live archive of my security research, exploit labs, and tooling. This
-          site mirrors my GitHub in real time — new commits and repos show up
-          automatically.
-        </p>
+        <div className="grid items-center gap-16 lg:grid-cols-2">
 
-        <div className="mt-8 box-glow rounded-md border border-border bg-card/70 p-4 font-mono text-sm">
-          <div className="mb-3 flex items-center gap-1.5">
-            <span className="h-3 w-3 rounded-full bg-destructive" />
-            <span className="h-3 w-3 rounded-full bg-chart-3" />
-            <span className="h-3 w-3 rounded-full bg-primary" />
-            <span className="ml-2 text-xs text-muted-foreground">bash — 80x24</span>
-          </div>
-          <div className="space-y-1">
-            {shown.map((line, i) => (
-              <div
-                key={i}
-                className={
-                  line.startsWith("$")
-                    ? "text-primary"
-                    : "text-muted-foreground"
-                }
+          {/* LEFT */}
+
+          <div>
+
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/5 px-4 py-2 text-sm text-green-400">
+              <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+              AVAILABLE FOR SECURITY WORK
+            </div>
+
+            <h1 className="text-6xl font-black leading-none tracking-tight lg:text-8xl">
+              <GlitchText className="cyber-glow-white">
+                Mohammad
+              </GlitchText>
+
+              <br />
+
+              <GlitchText className="cyber-glow-green">
+                Meraj
+              </GlitchText>
+            </h1>
+
+            <p className="mt-8 text-2xl font-semibold text-zinc-300">
+              Offensive Security Researcher
+            </p>
+
+            <p className="mt-6 max-w-xl leading-8 text-zinc-400">
+              Building offensive security tools, documenting penetration testing
+              methodologies, researching vulnerabilities, and publishing practical
+              knowledge for Windows, Linux, Active Directory, and Web Application
+              Security.
+            </p>
+
+            {/* Skills */}
+
+            <div className="mt-10 flex flex-wrap gap-3">
+              {[
+                "Windows",
+                "Linux",
+                "Active Directory",
+                "Web Security",
+                "Python",
+                "Exploit Development",
+                "CPTS",
+              ].map((badge) => (
+                <span
+                  key={badge}
+                  className="rounded-full border border-green-500/20 bg-green-500/5 px-4 py-2 text-sm text-green-300 transition hover:border-green-400 hover:bg-green-500/10"
+                >
+                  {badge}
+                </span>
+              ))}
+            </div>
+
+            {/* Buttons */}
+
+            <div className="mt-10 flex flex-wrap gap-4">
+
+              <a
+                href="#repositories"
+                className="inline-flex items-center gap-2 rounded-xl bg-green-500 px-7 py-3 font-semibold text-black transition hover:scale-105"
               >
-                {line}
-              </div>
-            ))}
-            <span className="text-primary">
-              {"$ "}
-              <span className="cursor-blink">_</span>
-            </span>
+                Explore Projects
+                <ArrowRight className="h-4 w-4" />
+              </a>
+
+              <a
+                href="/knowledge"
+                className="inline-flex items-center gap-2 rounded-xl border border-green-500/20 bg-green-500/5 px-7 py-3 font-semibold text-white transition hover:border-green-500 hover:bg-green-500/10"
+              >
+                <BookOpen className="h-4 w-4" />
+                Knowledge Base
+              </a>
+
+              <a
+                href={`https://github.com/${GITHUB_USER}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-7 py-3 font-semibold text-white transition hover:border-green-500"
+              >
+                <GithubIcon className="h-4 w-4" />
+                GitHub
+              </a>
+
+            </div>
+
           </div>
+
+          {/* RIGHT */}
+
+          <div>
+            <Terminal />
+          </div>
+
         </div>
 
-        <div className="mt-8 flex flex-wrap gap-6 text-sm">
-          <div>
-            <div className="text-2xl font-bold text-primary text-glow">{repoCount}</div>
-            <div className="text-muted-foreground">repositories</div>
+        {/* Stats */}
+
+        <div className="mt-20 grid gap-6 md:grid-cols-3">
+
+          <div className="rounded-2xl border border-green-500/10 bg-black/30 p-7 backdrop-blur-xl">
+            <div className="text-5xl font-black text-green-500">
+              {repoCount}
+            </div>
+            <div className="mt-2 text-zinc-400">
+              Open Source Projects
+            </div>
           </div>
-          <div>
-            <div className="text-2xl font-bold text-primary text-glow">{totalStars}</div>
-            <div className="text-muted-foreground">total stars</div>
+
+          <div className="rounded-2xl border border-green-500/10 bg-black/30 p-7 backdrop-blur-xl">
+            <div className="text-5xl font-black text-green-500">
+              {totalStars}
+            </div>
+            <div className="mt-2 text-zinc-400">
+              GitHub Stars
+            </div>
           </div>
-          <div>
-            <div className="text-2xl font-bold text-accent">live</div>
-            <div className="text-muted-foreground">github sync</div>
+
+          <div className="rounded-2xl border border-green-500/10 bg-black/30 p-7 backdrop-blur-xl">
+            <div className="text-5xl font-black text-green-500">
+              24/7
+            </div>
+            <div className="mt-2 text-zinc-400">
+              Learning & Research
+            </div>
           </div>
+
         </div>
+
       </div>
     </section>
-  )
+  );
 }

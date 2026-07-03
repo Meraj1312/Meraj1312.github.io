@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Terminal } from "lucide-react"
+import { Menu } from "lucide-react"
 import { GITHUB_USER } from "@/lib/github"
 
 function GithubIcon({ className }: { className?: string }) {
@@ -14,35 +14,65 @@ function GithubIcon({ className }: { className?: string }) {
     </svg>
   )
 }
-
 export function CyberNav() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <Link href="/" className="flex items-center gap-2 text-primary">
-          <Terminal className="h-5 w-5" />
-          <span className="font-bold tracking-tight text-glow">
-            {GITHUB_USER}
-            <span className="text-accent">@sec</span>
-          </span>
+    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/75 backdrop-blur-xl">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+
+        {/* Logo */}
+
+        <Link
+          href="/"
+          className="group flex items-center gap-3"
+        >
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 ring-1 ring-primary/20 transition group-hover:bg-primary/20">
+            <span className="text-lg font-bold text-primary">
+              M
+            </span>
+          </div>
+
+          <div>
+            <p className="font-semibold leading-none">
+              Meraj Khan
+            </p>
+
+            <p className="mt-1 text-xs text-muted-foreground">
+              Offensive Security
+            </p>
+          </div>
         </Link>
-        <nav className="flex items-center gap-4 text-sm">
+
+        {/* Desktop */}
+
+        <nav className="hidden items-center gap-8 md:flex">
+
           <Link
             href="/"
-            className="text-muted-foreground transition-colors hover:text-primary"
+            className="text-sm text-muted-foreground transition hover:text-foreground"
           >
-            ./repos
+            Projects
           </Link>
+
           <a
             href={`https://github.com/${GITHUB_USER}`}
             target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-1.5 rounded-sm border border-border px-3 py-1.5 text-foreground transition-colors hover:border-primary hover:text-primary"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-xl border border-border bg-card/60 px-4 py-2 text-sm transition hover:border-primary"
           >
             <GithubIcon className="h-4 w-4" />
             GitHub
           </a>
+
         </nav>
+
+        {/* Mobile */}
+
+        <button
+          className="rounded-lg border border-border p-2 md:hidden"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
+
       </div>
     </header>
   )

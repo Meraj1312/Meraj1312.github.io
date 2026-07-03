@@ -1,12 +1,28 @@
 export const GITHUB_USER = "Meraj1312"
 
-// The repos to display, in order.
-export const REPO_NAMES = [
-  "Penetration-Testing-Labs",
+/* ===========================================================
+   WEBSITE CONTENT
+=========================================================== */
+
+// Projects shown on the homepage
+export const PROJECT_REPOS = [
   "alertstack-siem",
   "cve-2018-7600-drupalgeddon2-lab",
-  "Windows-Pentesting",
-  "Commands-Pentesting",
+  "payloadforge",
+  "net-anom",
+] as const
+
+// Knowledge Base
+export const KNOWLEDGE_REPOS = [
+  "Windows",
+  "Linux",
+  "Active-Directory",
+  "Web-Application",
+] as const
+
+// Write-ups repository
+export const WRITEUP_REPOS = [
+  "Write-Ups",
 ] as const
 
 export interface Repo {
@@ -32,7 +48,7 @@ export interface Repo {
 
 const GITHUB_API = "https://api.github.com"
 
-// Revalidate every 30 minutes so the site stays in sync with GitHub.
+// Revalidate every 30 minutes
 const REVALIDATE_SECONDS = 60 * 30
 
 function headers(): HeadersInit {
@@ -40,50 +56,99 @@ function headers(): HeadersInit {
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
   }
+
   if (process.env.GITHUB_TOKEN) {
     h.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`
   }
+
   return h
 }
 
 async function ghFetch(path: string, accept?: string): Promise<Response> {
   const h = headers()
-  if (accept) (h as Record<string, string>).Accept = accept
+
+  if (accept) {
+    (h as Record<string, string>).Accept = accept
+  }
+
   return fetch(`${GITHUB_API}${path}`, {
     headers: h,
-    next: { revalidate: REVALIDATE_SECONDS },
+    next: {
+      revalidate: REVALIDATE_SECONDS,
+    },
   })
 }
 
 export async function getRepo(name: string): Promise<Repo | null> {
   const res = await ghFetch(`/repos/${GITHUB_USER}/${name}`)
+
   if (!res.ok) {
-    console.log("[v0] getRepo failed", name, res.status)
+    console.log("[GitHub] getRepo failed:", name, res.status)
     return null
   }
+
   return (await res.json()) as Repo
 }
 
-export async function getAllRepos(): Promise<Repo[]> {
-  const results = await Promise.all(REPO_NAMES.map((name) => getRepo(name)))
-  return results.filter((r): r is Repo => r !== null)
+/* ===========================================================
+   PROJECTS
+=========================================================== */
+
+export async function getProjects(): Promise<Repo[]> {
+  const results = await Promise.all(
+    PROJECT_REPOS.map((name) => getRepo(name))
+  )
+
+  return results.filter((repo): repo is Repo => repo !== null)
 }
+
+/* ===========================================================
+   KNOWLEDGE
+=========================================================== */
+
+export async function getKnowledgeRepos(): Promise<Repo[]> {
+  const results = await Promise.all(
+    KNOWLEDGE_REPOS.map((name) => getRepo(name))
+  )
+
+  return results.filter((repo): repo is Repo => repo !== null)
+}
+
+/* ===========================================================
+   WRITE-UPS
+=========================================================== */
+
+export async function getWriteups(): Promise<Repo | null> {
+  return getRepo(WRITEUP_REPOS[0])
+}
+
+/* ===========================================================
+   EXTRA HELPERS
+=========================================================== */
 
 export async function getReadme(name: string): Promise<string | null> {
   const res = await ghFetch(
     `/repos/${GITHUB_USER}/${name}/readme`,
-    "application/vnd.github.raw+json",
+    "application/vnd.github.raw+json"
   )
+
   if (!res.ok) {
-    console.log("[v0] getReadme failed", name, res.status)
+    console.log("[GitHub] getReadme failed:", name)
     return null
   }
+
   return await res.text()
 }
 
-export async function getLanguages(name: string): Promise<Record<string, number>> {
+export async function getLanguages(
+  name: string
+): Promise<Record<string, number>> {
   const res = await ghFetch(`/repos/${GITHUB_USER}/${name}/languages`)
-  if (!res.ok) return {}
+
+  if (!res.ok) {
+    return {}
+  }
+
   return (await res.json()) as Record<string, number>
 }
 
@@ -92,17 +157,32 @@ export interface Commit {
   html_url: string
   commit: {
     message: string
-    author: { name: string; date: string } | null
+    author: {
+      name: string
+      date: string
+    } | null
   }
 }
 
-export async function getRecentCommits(name: string, branch: string): Promise<Commit[]> {
-  const res = await ghFetch(`/repos/${GITHUB_USER}/${name}/commits?sha=${branch}&per_page=5`)
-  if (!res.ok) return []
+export async function getRecentCommits(
+  name: string,
+  branch: string
+): Promise<Commit[]> {
+  const res = await ghFetch(
+    `/repos/${GITHUB_USER}/${name}/commits?sha=${branch}&per_page=5`
+  )
+
+  if (!res.ok) {
+    return []
+  }
+
   return (await res.json()) as Commit[]
 }
 
-// Language color map for common languages
+/* ===========================================================
+   HELPERS
+=========================================================== */
+
 export const LANGUAGE_COLORS: Record<string, string> = {
   Python: "#3572A5",
   Shell: "#89e051",
@@ -132,7 +212,9 @@ export function langColor(lang: string | null): string {
 export function timeAgo(iso: string): string {
   const then = new Date(iso).getTime()
   const now = Date.now()
-  const s = Math.floor((now - then) / 1000)
+
+  const seconds = Math.floor((now - then) / 1000)
+
   const units: [number, string][] = [
     [60, "second"],
     [60, "minute"],
@@ -141,17 +223,21 @@ export function timeAgo(iso: string): string {
     [12, "month"],
     [Number.POSITIVE_INFINITY, "year"],
   ]
-  let val = s
+
+  let value = seconds
   let unit = "second"
   let divisor = 1
+
   for (const [step, label] of units) {
-    if (val < step) {
+    if (value < step) {
       unit = label
       break
     }
+
     divisor *= step
-    val = Math.floor(s / divisor)
+    value = Math.floor(seconds / divisor)
     unit = label
   }
-  return `${val} ${unit}${val === 1 ? "" : "s"} ago`
+
+  return `${value} ${unit}${value === 1 ? "" : "s"} ago`
 }
