@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Markdown from "@/components/markdown";
 import { getMarkdownContent } from "@/lib/github-docs";
 import { KNOWLEDGE_REPOS } from "@/lib/github";
+import Sidebar from "@/components/docs/Sidebar";
 
 interface Props {
   params: Promise<{
@@ -33,23 +34,31 @@ export default async function DocPage({
     notFound();
   }
 
-  return (
-    <main className="mx-auto max-w-5xl px-6 py-20">
-      <div className="mb-12">
-        <span className="rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-xs text-green-400">
-          Documentation
-        </span>
+return (
+  <main className="mx-auto max-w-7xl px-6 py-20">
+    <div className="grid gap-12 lg:grid-cols-[280px_1fr]">
+      <Sidebar
+        repo={repo}
+        currentFile={filename.replace(".md", "")}
+      />
 
-        <h1 className="mt-5 text-5xl font-black">
-          {filename.replace(".md", "")}
-        </h1>
+      <article>
+        <div className="mb-10">
+          <span className="rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-xs text-green-400">
+            Documentation
+          </span>
 
-        <p className="mt-4 text-zinc-400">
-          Repository: {repo}
-        </p>
-      </div>
+          <h1 className="mt-5 text-5xl font-black">
+            {filename.replace(".md", "")}
+          </h1>
 
-      <Markdown content={markdown} />
-    </main>
-  );
-}
+          <p className="mt-3 text-zinc-400">
+            Repository: {repo}
+          </p>
+        </div>
+
+        <Markdown content={markdown} />
+      </article>
+    </div>
+  </main>
+);
