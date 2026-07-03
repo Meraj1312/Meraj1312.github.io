@@ -1,46 +1,39 @@
-import { KNOWLEDGE_REPOS } from "@/lib/github"
-import RepoExplorer from "@/components/cyberdocs/RepoExplorer"
-import { notFound } from "next/navigation"
-
-export function generateStaticParams() {
-  return KNOWLEDGE_REPOS.map((repo) => ({
-    repo,
-  }))
-}
+import { notFound } from "next/navigation";
+import RepoExplorer from "@/components/docs/RepoExplorer";
+import { KNOWLEDGE_REPOS } from "@/lib/github";
 
 interface Props {
   params: Promise<{
-    repo: string
-  }>
+    repo: string;
+  }>;
 }
 
 export default async function RepoPage({
   params,
 }: Props) {
-  const { repo } = await params
+  const { repo } = await params;
 
   if (!KNOWLEDGE_REPOS.includes(repo as any)) {
-    notFound()
+    notFound();
   }
 
   return (
-    <main className="mx-auto max-w-7xl px-6 py-20">
-      <div className="mb-12">
+    <main className="mx-auto max-w-7xl px-6 py-24">
+      <div className="mb-14">
         <span className="rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-xs text-green-400">
-          Knowledge Base
+          Repository
         </span>
 
-        <h1 className="mt-4 text-5xl font-black">
+        <h1 className="mt-5 text-5xl font-black">
           {repo.replaceAll("-", " ")}
         </h1>
 
-        <p className="mt-4 max-w-3xl text-zinc-400">
-          Every markdown document inside this GitHub repository is
-          automatically listed below.
+        <p className="mt-5 max-w-3xl leading-8 text-zinc-400">
+          Every Markdown document in this repository is listed automatically.
         </p>
       </div>
 
       <RepoExplorer repo={repo} />
     </main>
-  )
+  );
 }
