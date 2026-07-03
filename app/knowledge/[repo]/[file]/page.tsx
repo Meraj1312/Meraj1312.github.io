@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
+import Markdown from "@/components/markdown";
+import { getMarkdownContent } from "@/lib/github-docs";
 import { KNOWLEDGE_REPOS } from "@/lib/github";
-import { Markdown } from "@/components/markdown";
 
 interface Props {
   params: Promise<{
@@ -9,34 +10,7 @@ interface Props {
   }>;
 }
 
-async function getMarkdown(repo: string, file: string) {
-  const filename =
-    file.toLowerCase() === "readme"
-      ? "README.md"
-      : `${decodeURIComponent(file)}.md`;
-
-  const res = await fetch(
-    `https://raw.githubusercontent.com/Meraj1312/${repo}/main/${filename}`,
-    {
-      cache: "no-store",
-    }
-  );
-
-  if (!res.ok) {
-    return null;
-  }
-
-  return await res.text();
-}
-
-export async function generateStaticParams() {
-  return KNOWLEDGE_REPOS.map((repo) => ({
-    repo,
-    file: "README",
-  }));
-}
-
-export default async function MarkdownPage({
+export default async function DocPage({
   params,
 }: Props) {
   const { repo, file } = await params;
@@ -45,7 +19,15 @@ export default async function MarkdownPage({
     notFound();
   }
 
-  const markdown = await getMarkdown(repo, file);
+  const filename =
+    decodeURIComponent(file).toLowerCase() === "readme"
+      ? "README.md"
+      : `${decodeURIComponent(file)}.md`;
+
+  const markdown = await getMarkdownContent(
+    repo,
+    filename
+  );
 
   if (!markdown) {
     notFound();
@@ -53,13 +35,17 @@ export default async function MarkdownPage({
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-20">
-      <div className="mb-10">
-        <h1 className="text-5xl font-black">
-          {decodeURIComponent(file)}
+      <div className="mb-12">
+        <span className="rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-xs text-green-400">
+          Documentation
+        </span>
+
+        <h1 className="mt-5 text-5xl font-black">
+          {filename.replace(".md", "")}
         </h1>
 
-        <p className="mt-3 text-zinc-400">
-          {repo.replaceAll("-", " ")}
+        <p className="mt-4 text-zinc-400">
+          Repository: {repo}
         </p>
       </div>
 
