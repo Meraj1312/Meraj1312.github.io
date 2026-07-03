@@ -1,29 +1,82 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const commands = [
   {
     prompt: "meraj@kali:~$",
     command: "whoami",
-    output: ["Mohammad Meraj"],
+    output: ["meraj"],
   },
   {
     prompt: "meraj@kali:~$",
-    command: "bloodhound-python -u meraj -c All",
+    command: "id",
     output: [
-      "[+] Collecting Active Directory Objects...",
-      "[+] Session Complete",
+      "uid=1337(meraj) gid=1337(pentester) groups=htb,cpts,security",
     ],
   },
   {
     prompt: "meraj@kali:~$",
-    command: "nmap -Pn -sC -sV 10.10.10.10",
+    command: "hostname",
+    output: ["kali"],
+  },
+  {
+    prompt: "meraj@kali:~$",
+    command: "uptime",
     output: [
-      "22/tcp   open  ssh",
-      "80/tcp   open  http",
-      "445/tcp  open  microsoft-ds",
+      "up 2 years, 3 months, 14 days, 7 hours, 21 minutes",
     ],
+  },
+  {
+    prompt: "meraj@kali:~$",
+    command: "pwd",
+    output: ["~/HackTheBox/CPTS"],
+  },
+  {
+    prompt: "meraj@kali:~$",
+    command: "ls projects",
+    output: [
+      "AlertStack-SIEM",
+      "PayloadForge",
+      "CyberDocs",
+      "CVE-Labs",
+    ],
+  },
+  {
+    prompt: "meraj@kali:~$",
+    command: "ls knowledge",
+    output: [
+      "Active-Directory",
+      "Windows",
+      "Linux",
+      "Web",
+      "Cloud",
+      "Detection-Engineering",
+    ],
+  },
+  {
+    prompt: "meraj@kali:~$",
+    command: "find skills -maxdepth 1",
+    output: [
+      "skills/",
+      "skills/Active-Directory",
+      "skills/Windows",
+      "skills/Linux",
+      "skills/Web",
+      "skills/Python",
+      "skills/Networking",
+    ],
+  },
+  {
+    prompt: "meraj@kali:~$",
+    command: 'grep -i "goal" profile.txt',
+    output: ["Become a world-class Penetration Tester"],
+  },
+  {
+    prompt: "meraj@kali:~$",
+    command: "clear",
+    output: [],
+    clear: true,
   },
 ];
 
@@ -39,7 +92,9 @@ export function Terminal() {
   const [index, setIndex] = useState(0);
   const [cursor, setCursor] = useState(true);
 
-  // Blinking cursor
+  const terminalRef = useRef<HTMLDivElement>(null);
+
+  // Cursor blink
   useEffect(() => {
     const blink = setInterval(() => {
       setCursor((v) => !v);
@@ -48,25 +103,35 @@ export function Terminal() {
     return () => clearInterval(blink);
   }, []);
 
-  // Typing animation
+  // Auto-scroll
   useEffect(() => {
-    if (index >= commands.length) return;
+    terminalRef.current?.scrollTo({
+      top: terminalRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [history, current]);
 
+  // Typing
+  useEffect(() => {
     const cmd = commands[index];
 
     let char = 0;
-    let typingTimeout: NodeJS.Timeout;
-    let nextTimeout: NodeJS.Timeout;
 
-    const type = () => {
+    let typingTimer: NodeJS.Timeout;
+    let finishTimer: NodeJS.Timeout;
+    let nextTimer: NodeJS.Timeout;
+
+    function type() {
       if (char <= cmd.command.length) {
         setCurrent(cmd.command.slice(0, char));
         char++;
 
-        typingTimeout = setTimeout(type, 55);
+        typingTimer = setTimeout(
+          type,
+          35 + Math.random() * 35
+        );
       } else {
-        // Finished typing, wait before printing output
-        typingTimeout = setTimeout(() => {
+        finishTimer = setTimeout(() => {
           setHistory((prev) => [
             ...prev,
             {
@@ -76,74 +141,86 @@ export function Terminal() {
             },
           ]);
 
-          // Move to next command after a pause
-          nextTimeout = setTimeout(() => {
-            setCurrent("");
-            setIndex((i) => i + 1);
-          }, 700);
-        }, 500);
+          setCurrent("");
+
+          nextTimer = setTimeout(() => {
+            if ((cmd as any).clear) {
+              setHistory([]);
+              setIndex(0);
+            } else {
+              setIndex((i) => i + 1);
+            }
+          }, 1000);
+        }, 350);
       }
-    };
+    }
 
     type();
 
     return () => {
-      clearTimeout(typingTimeout);
-      clearTimeout(nextTimeout);
+      clearTimeout(typingTimer);
+      clearTimeout(finishTimer);
+      clearTimeout(nextTimer);
     };
   }, [index]);
 
   return (
     <div className="overflow-hidden rounded-2xl border border-green-500/20 bg-black/80 shadow-2xl backdrop-blur-xl">
-
       <div className="flex items-center gap-2 border-b border-green-500/10 px-4 py-3">
         <div className="h-3 w-3 rounded-full bg-red-500" />
         <div className="h-3 w-3 rounded-full bg-yellow-500" />
         <div className="h-3 w-3 rounded-full bg-green-500" />
 
         <span className="ml-3 text-xs text-green-400">
-          kali • bash
+          meraj@kali:~
         </span>
       </div>
 
-      <div className="space-y-3 p-5 font-mono text-sm leading-7">
-
+      <div
+        ref={terminalRef}
+        className="
+          h-[420px]
+          overflow-y-auto
+          space-y-3
+          p-5
+          font-mono
+          text-sm
+          leading-7
+        "
+      >
         {history.map((cmd, i) => (
           <div key={i}>
             <div>
-              <span className="text-green-500">{cmd.prompt}</span>{" "}
-              <span className="text-green-300">{cmd.command}</span>
+              <span className="text-green-500">
+                {cmd.prompt}
+              </span>{" "}
+              <span className="text-green-300">
+                {cmd.command}
+              </span>
             </div>
 
             {cmd.output?.map((line, j) => (
-              <div key={j} className="text-zinc-300">
+              <div
+                key={j}
+                className="text-zinc-300"
+              >
                 {line}
               </div>
             ))}
           </div>
         ))}
 
-        {index < commands.length ? (
-          <div>
-            <span className="text-green-500">
-              {commands[index].prompt}
-            </span>{" "}
-            <span className="text-green-300">{current}</span>
-            <span className={cursor ? "opacity-100" : "opacity-0"}>
-              █
-            </span>
-          </div>
-        ) : (
-          <div>
-            <span className="text-green-500">
-              meraj@kali:~$
-            </span>{" "}
-            <span className={cursor ? "opacity-100" : "opacity-0"}>
-              █
-            </span>
-          </div>
-        )}
-
+        <div>
+          <span className="text-green-500">
+            {commands[index].prompt}
+          </span>{" "}
+          <span className="text-green-300">
+            {current}
+          </span>
+          <span className={cursor ? "opacity-100" : "opacity-0"}>
+            █
+          </span>
+        </div>
       </div>
     </div>
   );

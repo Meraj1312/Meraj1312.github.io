@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Markdown } from "@/components/markdown";
+import Markdown from "@/components/markdown";
 
 interface Props {
   repo: string;

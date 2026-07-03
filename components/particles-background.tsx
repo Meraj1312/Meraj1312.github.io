@@ -1,64 +1,87 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Particles from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
-import { tsParticles } from "@tsparticles/engine";
+import {
+  tsParticles,
+  type ISourceOptions,
+} from "@tsparticles/engine";
 
 export function ParticlesBackground() {
   const [init, setInit] = useState(false);
 
   useEffect(() => {
-    const initEngine = async () => {
+    async function initEngine() {
       await loadSlim(tsParticles);
       setInit(true);
-    };
+    }
 
     initEngine();
   }, []);
 
-  const options = useMemo(
+  const options: ISourceOptions = useMemo(
     () => ({
       fullScreen: {
         enable: true,
-        zIndex: 10,
+        zIndex: -1,
       },
+
+      fpsLimit: 120,
 
       background: {
         color: "transparent",
       },
 
+      detectRetina: true,
+
       particles: {
         number: {
-          value: 80,
+          value: 120,
+          density: {
+            enable: true,
+          },
         },
 
         color: {
-          value: ["#22c55e", "#16a34a", "#ca8a04"],
-        },
-
-        links: {
-          enable: true,
-          distance: 140,
-          color: "#22c55e",
-          opacity: 0.2,
-        },
-
-        move: {
-          enable: true,
-          speed: 1,
-        },
-
-        size: {
-          value: { min: 1, max: 3 },
-        },
-
-        opacity: {
-          value: 0.5,
+          value: ["#22c55e", "#16a34a", "#84cc16"],
         },
 
         shape: {
           type: "circle",
+        },
+
+        opacity: {
+          value: {
+            min: 0.2,
+            max: 0.7,
+          },
+        },
+
+        size: {
+          value: {
+            min: 1,
+            max: 3,
+          },
+        },
+
+        links: {
+          enable: true,
+          distance: 170,
+          color: "#22c55e",
+          opacity: 0.18,
+          width: 1,
+        },
+
+        move: {
+          enable: true,
+          speed: 3,
+          direction: "none",
+          random: true,
+          straight: false,
+          outModes: {
+            default: "bounce",
+          },
         },
       },
 
@@ -66,7 +89,29 @@ export function ParticlesBackground() {
         events: {
           onHover: {
             enable: true,
-            mode: "repulse",
+            mode: "grab",
+          },
+
+          onClick: {
+            enable: true,
+            mode: "push",
+          },
+
+          resize: {
+            enable: true,
+          },
+        },
+
+        modes: {
+          grab: {
+            distance: 220,
+            links: {
+              opacity: 0.8,
+            },
+          },
+
+          push: {
+            quantity: 5,
           },
         },
       },

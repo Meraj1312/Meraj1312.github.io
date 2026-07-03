@@ -57,8 +57,20 @@ return (
           </p>
         </div>
 
+        <div
+        className="
+            rounded-3xl
+            border
+            border-green-500/10
+            bg-black/30
+            p-10
+            backdrop-blur-xl
+            shadow-[0_0_40px_rgba(34,197,94,.08)]
+        "
+        >
         <Markdown content={markdown} />
+        </div>
       </article>
     </div>
   </main>
-);
+);}
