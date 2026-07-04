@@ -241,3 +241,61 @@ export function timeAgo(iso: string): string {
 
   return `${value} ${unit}${value === 1 ? "" : "s"} ago`
 }
+/* ===========================================================
+   REPOSITORY CONTENTS
+=========================================================== */
+
+export interface RepoItem {
+  name: string;
+  path: string;
+  sha: string;
+  size: number;
+  type: "file" | "dir";
+  download_url: string | null;
+  html_url: string;
+}
+
+export async function getRepoContents(
+  repo: string,
+  path = ""
+): Promise<RepoItem[]> {
+  const res = await ghFetch(
+    `/repos/${GITHUB_USER}/${repo}/contents/${path}`
+  );
+
+  if (!res.ok) {
+    console.log(
+      "[GitHub] getRepoContents failed:",
+      repo,
+      path
+    );
+
+    return [];
+  }
+
+  const data = await res.json();
+
+  return Array.isArray(data) ? data : [data];
+}
+
+export async function getFileContent(
+  repo: string,
+  path: string
+): Promise<string |null> {
+  const res = await ghFetch(
+    `/repos/${GITHUB_USER}/${repo}/contents/${path}`,
+    "application/vnd.github.raw+json"
+  );
+
+  if (!res.ok) {
+    console.log(
+      "[GitHub] getFileContent failed:",
+      repo,
+      path
+    );
+
+    return null;
+  }
+
+  return await res.text();
+}

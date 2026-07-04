@@ -1,9 +1,10 @@
-import { AuroraBackground } from "@/components/aurora-background";
-import { Analytics } from "@vercel/analytics/next";
-import { NetworkBackground } from "@/components/network-background";
+
 import { BackgroundGrid } from "@/components/background-grid";
+import { Analytics } from "@vercel/analytics/next";
+
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -18,11 +19,13 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Meraj Khan",
-    template: "%s • Meraj Khan",
+    default: "Mohammad Meraj",
+    template: "%s • Mohammad Meraj",
   },
+
   description:
     "Security research, penetration testing, Active Directory, exploit development, detection engineering, SIEM projects, and offensive security documentation.",
+
   metadataBase: new URL("https://your-domain.com"),
 };
 
@@ -40,21 +43,22 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable}`}
+      suppressHydrationWarning
     >
-      <body className="bg-background text-foreground">
+      <body className="bg-background text-foreground antialiased">
+        {/* Soft animated background */}
 
-        <AuroraBackground />
-
+        {/* Static grid */}
         <BackgroundGrid />
 
-        <NetworkBackground />
-
-        <div className="scanlines" />
+        {/* CRT scanlines */}
+        <div className="scanlines pointer-events-none" />
 
         <main className="relative z-10">
           {children}
         </main>
 
+        <Analytics />
       </body>
     </html>
   );
