@@ -9,7 +9,7 @@ export const PROJECT_REPOS = [
   "alertstack-siem",
   "cve-2018-7600-drupalgeddon2-lab",
   "payloadforge",
-  "net-anom",
+  "Write-Ups",
 ] as const
 
 // Knowledge Base
