@@ -3,7 +3,7 @@ import Markdown from "@/components/markdown";
 import CodeBlock from "@/components/CodeBlock";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RepoExplorer from "@/components/projects/RepoExplorer";
-
+import MarkdownToc from "@/components/projects/MarkdownToc";
 import {
   getFileContent,
   getRepoContents,
@@ -59,11 +59,15 @@ export default async function FilePage({
         <div className="grid w-full max-w-[1700px] gap-10 lg:grid-cols-[260px_minmax(0,1fr)]">
 
           <aside className="sticky top-24 h-fit">
-            <RepoExplorer
-              repo={repo}
-              items={items}
-              currentPath={fullPath}
-            />
+            {extension === "md" ? (
+              <MarkdownToc content={content} />
+            ) : (
+              <RepoExplorer
+                repo={repo}
+                items={items}
+                currentPath={fullPath}
+              />
+            )}
           </aside>
 
           <article className="mx-auto w-full max-w-5xl min-w-0">

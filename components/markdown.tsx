@@ -1,7 +1,9 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import CodeBlock from "./CodeBlock";
-
+import { slugify } from "@/lib/markdown";
+import React from "react";
+import rehypeSlug from "rehype-slug";
 interface Props {
   content: string;
 }
@@ -76,8 +78,9 @@ export default function Markdown({ content }: Props) {
     >
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeSlug]}
         components={{
-          pre({ children }) {
+         pre({ children }) {
             const child = children as React.ReactElement<any>;
 
             if (!child?.props) {
