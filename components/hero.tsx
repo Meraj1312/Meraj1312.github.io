@@ -26,7 +26,7 @@ export function Hero({
   totalStars: number;
 }) {
   return (
-    <section className="relative overflow-hidden border-b border-border">
+    <section className="relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 py-20 lg:py-28">
 
         <div className="grid items-center gap-16 lg:grid-cols-2">
@@ -34,8 +34,7 @@ export function Hero({
           {/* LEFT */}
 
           <div>
-
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/5 px-4 py-2 text-sm text-green-400">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-2 text-sm text-violet-300">
               <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
               AVAILABLE FOR SECURITY WORK
             </div>
@@ -47,7 +46,10 @@ export function Hero({
 
               <br />
 
-              <GlitchText className="cyber-glow-green">
+              <GlitchText
+                gradient
+                className="cyber-glow-violet"
+              >
                 Meraj
               </GlitchText>
             </h1>
@@ -77,8 +79,7 @@ export function Hero({
               ].map((badge) => (
                 <span
                   key={badge}
-                  className="rounded-full border border-green-500/20 bg-green-500/5 px-4 py-2 text-sm text-green-300 transition hover:border-green-400 hover:bg-green-500/10"
-                >
+                  className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-300 transition-all duration-300 hover:border-violet-500/40 hover:bg-violet-500/10 hover:text-violet-200"                >
                   {badge}
                 </span>
               ))}
@@ -98,7 +99,7 @@ export function Hero({
 
               <a
                 href="/knowledge"
-                className="inline-flex items-center gap-2 rounded-xl border border-green-500/20 bg-green-500/5 px-7 py-3 font-semibold text-white transition hover:border-green-500 hover:bg-green-500/10"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-7 py-3 font-semibold text-white transition-all duration-300 hover:border-violet-500/40 hover:bg-violet-500/10"
               >
                 <BookOpen className="h-4 w-4" />
                 Knowledge Base
@@ -108,8 +109,7 @@ export function Hero({
                 href={`https://github.com/${GITHUB_USER}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-7 py-3 font-semibold text-white transition hover:border-green-500"
-              >
+                className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-7 py-3 font-semibold text-white transition-all duration-300 hover:border-violet-500/40 hover:bg-violet-500/10"              >
                 <GithubIcon className="h-4 w-4" />
                 GitHub
               </a>
@@ -130,7 +130,7 @@ export function Hero({
 
         <div className="mt-20 grid gap-6 md:grid-cols-3">
 
-          <div className="rounded-2xl border border-green-500/10 bg-black/30 p-7 backdrop-blur-xl">
+          <div className="rounded-2xl border border-white/10 bg-black/30 p-7 backdrop-blur-xl transition-all duration-300 hover:border-violet-500/30 hover:shadow-[0_0_40px_rgba(139,92,246,.18)]">
             <div className="text-5xl font-black text-green-500">
               {repoCount}
             </div>
@@ -139,7 +139,7 @@ export function Hero({
             </div>
           </div>
 
-          <div className="rounded-2xl border border-green-500/10 bg-black/30 p-7 backdrop-blur-xl">
+          <div className="rounded-2xl border border-white/10 bg-black/30 p-7 backdrop-blur-xl transition-all duration-300 hover:border-violet-500/30 hover:shadow-[0_0_40px_rgba(139,92,246,.18)]">
             <div className="text-5xl font-black text-green-500">
               {totalStars}
             </div>
@@ -148,7 +148,7 @@ export function Hero({
             </div>
           </div>
 
-          <div className="rounded-2xl border border-green-500/10 bg-black/30 p-7 backdrop-blur-xl">
+          <div className="rounded-2xl border border-white/10 bg-black/30 p-7 backdrop-blur-xl transition-all duration-300 hover:border-violet-500/30 hover:shadow-[0_0_40px_rgba(139,92,246,.18)]">
             <div className="text-5xl font-black text-green-500">
               24/7
             </div>

@@ -96,7 +96,10 @@ export function Terminal() {
 
   // Cursor blink
   useEffect(() => {
+    console.log("Cursor effect mounted");
+
     const blink = setInterval(() => {
+      console.log("blink");
       setCursor((v) => !v);
     }, 500);
 
@@ -113,13 +116,14 @@ export function Terminal() {
 
   // Typing
   useEffect(() => {
+    
     const cmd = commands[index];
 
     let char = 0;
 
-    let typingTimer: NodeJS.Timeout;
-    let finishTimer: NodeJS.Timeout;
-    let nextTimer: NodeJS.Timeout;
+    let typingTimer: ReturnType<typeof setTimeout>;
+    let finishTimer: ReturnType<typeof setTimeout>;
+    let nextTimer: ReturnType<typeof setTimeout>;
 
     function type() {
       if (char <= cmd.command.length) {
@@ -163,6 +167,7 @@ export function Terminal() {
       clearTimeout(nextTimer);
     };
   }, [index]);
+  console.log("Terminal render");
 
   return (
     <div className="overflow-hidden rounded-2xl border border-green-500/20 bg-black/80 shadow-2xl backdrop-blur-xl">

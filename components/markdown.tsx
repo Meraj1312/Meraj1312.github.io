@@ -1,6 +1,5 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import rehypeHighlight from "rehype-highlight";
 import CodeBlock from "./CodeBlock";
 
 interface Props {
@@ -77,7 +76,6 @@ export default function Markdown({ content }: Props) {
     >
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeHighlight]}
         components={{
           pre({ children }) {
             const child = children as React.ReactElement<any>;
@@ -89,6 +87,7 @@ export default function Markdown({ content }: Props) {
             const language =
               child.props.className?.replace("language-", "") ?? "text";
 
+            console.log(child.props.children);
             const code = String(child.props.children).replace(/\n$/, "");
 
             return (
@@ -111,16 +110,32 @@ export default function Markdown({ content }: Props) {
             return (
               <code
                 className="
-                  rounded-md
+                  rounded-lg
                   border
-                  border-green-500/20
-                  bg-[#132117]
+                  border-violet-500/25
+
+                  bg-gradient-to-r
+                  from-violet-500/10
+                  via-blue-500/10
+                  to-violet-500/10
+
                   px-2.5
                   py-1
+
                   font-mono
                   text-[0.9rem]
                   font-medium
-                  text-green-300
+
+                  text-violet-200
+
+                  shadow-[0_0_10px_rgba(139,92,246,.18)]
+
+                  transition-all
+                  duration-300
+
+                  hover:border-violet-400/40
+                  hover:text-white
+                  hover:shadow-[0_0_18px_rgba(139,92,246,.35)]
                 "
               >
                 {children}

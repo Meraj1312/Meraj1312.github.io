@@ -53,22 +53,23 @@
   --popover: #0a0a0a;
   --popover-foreground: #fafafa;
 
-  /* Hacker Green Theme */
-  --primary: #22c55e;
-  --primary-foreground: #000000;
+  /* Violet + Green Cyber Theme */
 
-  --secondary: #111111;
+  --primary: #8b5cf6;
+  --primary-foreground: #ffffff;
+
+  --secondary: #111118;
   --secondary-foreground: #fafafa;
 
-  --muted: #111114;
+  --muted: #13131a;
   --muted-foreground: #9ca3af;
 
-  --accent: #16a34a;
+  --accent: #22c55e;
   --accent-foreground: #ffffff;
 
-  --border: rgba(34,197,94,.15);
-  --input: rgba(34,197,94,.08);
-  --ring: rgba(34,197,94,.45);
+  --border: rgba(139,92,246,.16);
+  --input: rgba(139,92,246,.08);
+  --ring: rgba(139,92,246,.45);
 
   --radius: 1rem;
 }
@@ -94,9 +95,14 @@
 
     background:
       radial-gradient(
-        circle at center,
+        circle at top,
+        rgba(139,92,246,.13),
+        transparent 45%
+      ),
+      radial-gradient(
+        circle at bottom right,
         rgba(34,197,94,.05),
-        transparent 65%
+        transparent 45%
       ),
       #09090b;
 
@@ -208,8 +214,13 @@ z-index:1;
 background:
 radial-gradient(
 circle at center,
-rgba(34,197,94,.08),
-transparent 65%
+rgba(139,92,246,.10),
+transparent 60%
+),
+radial-gradient(
+circle at 75% 70%,
+rgba(34,197,94,.04),
+transparent 55%
 );
 
 filter:blur(150px);
@@ -232,33 +243,34 @@ transform:scale(1.15);
    CYBER GLOW TEXT
 ========================================== */
 
-.cyber-glow {
-  color: #f8fafc;
-  transition:
-    color 0.25s ease,
-    text-shadow 0.25s ease,
-    filter 0.25s ease;
+.cyber-glow{
+  color:#fff;
+  transition:.25s;
 }
 
-.cyber-glow:hover {
-  color: #22c55e;
+.cyber-glow:hover{
+
+  color:#c4b5fd;
 
   text-shadow:
-    0 0 5px rgba(34,197,94,.9),
-    0 0 10px rgba(34,197,94,.7),
-    0 0 20px rgba(34,197,94,.5),
-    0 0 40px rgba(34,197,94,.3);
+      0 0 6px rgba(139,92,246,.9),
+      0 0 18px rgba(139,92,246,.65),
+      0 0 40px rgba(139,92,246,.4),
+      0 0 70px rgba(34,197,94,.18);
 
-  filter: brightness(1.15);
 }
+
 .cyber-glow-green{
-    color:#22c55e;
-    text-shadow:
-        0 0 8px rgba(34,197,94,.7),
-        0 0 18px rgba(34,197,94,.55),
-        0 0 40px rgba(34,197,94,.35);
-}
+    display:inline-block;
+    position:relative;
 
+    text-shadow:
+        0 0 8px rgba(34,197,94,.75),
+        0 0 20px rgba(34,197,94,.45),
+        0 0 40px rgba(34,197,94,.25);
+
+    filter:drop-shadow(0 0 8px rgba(34,197,94,.35));
+}
 .cyber-glow-white{
     color:#fff;
     text-shadow:
@@ -374,6 +386,8 @@ transform:scale(1.15);
     position:absolute;
     inset:0;
     pointer-events:none;
+    background:none;
+    -webkit-text-fill-color:unset;
 }
 
 .glitch-active::before{
@@ -389,28 +403,6 @@ transform:scale(1.15);
     clip-path:inset(55% 0 0 0);
     animation:glitchBottom .18s steps(2) infinite;
 }
-
-@keyframes glitchTop{
-
-0%{transform:translate(0)}
-20%{transform:translate(-4px,-2px)}
-40%{transform:translate(4px,2px)}
-60%{transform:translate(-3px,1px)}
-80%{transform:translate(3px,-1px)}
-100%{transform:translate(0)}
-
-}
-
-@keyframes glitchBottom{
-
-0%{transform:translate(0)}
-20%{transform:translate(4px,2px)}
-40%{transform:translate(-4px,-2px)}
-60%{transform:translate(3px,-1px)}
-80%{transform:translate(-3px,1px)}
-100%{transform:translate(0)}
-
-}
 /* ==========================================
    CARD BORDER LIGHT
 ========================================== */
@@ -423,7 +415,7 @@ transform:scale(1.15);
 
     border-radius:9999px;
 
-    background:#22c55e;
+    background:#8b5cf6;
 
     filter:blur(22px);
 
@@ -477,9 +469,9 @@ left:-45px;
         from 0deg,
         transparent 0deg,
         transparent 300deg,
-        rgba(34,197,94,.95) 330deg,
+        rgba(139,92,246,.95) 330deg,
         white 345deg,
-        rgba(34,197,94,.95) 360deg
+        rgba(45, 202, 181, 0.95) 360deg
     );
 
     animation:borderRotate 2.2s linear infinite;
@@ -692,12 +684,12 @@ pre::-webkit-scrollbar-track {
 }
 
 pre::-webkit-scrollbar-thumb {
-  background: rgba(100,255,140,.35);
+  background: rgba(38, 204, 196, 0.35);
   border-radius: 999px;
 }
 
 pre::-webkit-scrollbar-thumb:hover {
-  background: rgba(120,255,160,.55);
+  background: rgba(174, 50, 223, 0.55);
 }
 
 /* ==========================================
