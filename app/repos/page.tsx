@@ -6,7 +6,7 @@ export const revalidate = 1800;
 export default function ProjectsPage() {
   return (
     <div className="relative min-h-screen">
-      <CyberNav />
+
 
       <main className="mx-auto max-w-7xl px-6 py-24">
         <div className="mb-14">

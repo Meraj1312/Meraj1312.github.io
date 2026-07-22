@@ -1,7 +1,7 @@
 
 import { BackgroundGrid } from "@/components/background-grid";
 import { Analytics } from "@vercel/analytics/next";
-
+import { CyberNav } from "@/components/cyber-nav";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
@@ -46,15 +46,13 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="bg-background text-foreground antialiased">
-        {/* Soft animated background */}
-
-        {/* Static grid */}
         <BackgroundGrid />
 
-        {/* CRT scanlines */}
         <div className="scanlines pointer-events-none" />
 
-        <main className="relative z-10">
+        <CyberNav />
+
+        <main className="relative z-10 pt-16">
           {children}
         </main>
 

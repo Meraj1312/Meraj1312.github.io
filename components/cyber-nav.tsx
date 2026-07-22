@@ -20,7 +20,7 @@ function GithubIcon({ className }: { className?: string }) {
 
 export function CyberNav() {
   return (
-    <header className="sticky top-0 z-50 border-b border-green-500/10 bg-black/70 backdrop-blur-2xl">
+    <header className="sticky top-0 z-50 border-b border-violet-500/15 bg-black/70 backdrop-blur-2xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-6 px-6">
 
         {/* Logo */}
@@ -29,8 +29,8 @@ export function CyberNav() {
           href="/"
           className="flex items-center gap-3 shrink-0"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-500/10 ring-1 ring-green-500/20">
-            <span className="text-lg font-bold text-green-400">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10 ring-1 ring-violet-500/30 shadow-[0_0_18px_rgba(139,92,246,.25)]">
+            <span className="bg-gradient-to-r from-violet-400 via-fuchsia-300 to-cyan-300 bg-clip-text text-lg font-bold text-transparent">
               M
             </span>
           </div>
@@ -51,16 +51,23 @@ export function CyberNav() {
         <nav className="hidden lg:flex items-center gap-6">
           <Link
             href="/"
-            className="text-sm text-zinc-400 transition hover:text-green-400"
+            className="text-sm text-zinc-400 transition hover:text-violet-300"
           >
             Home
           </Link>
 
           <Link
             href="/knowledge"
-            className="text-sm text-zinc-400 transition hover:text-green-400"
+            className="text-sm text-zinc-400 transition hover:text-violet-300"
           >
             Knowledge
+          </Link>
+
+          <Link
+            href="/repos/Write-Ups"
+            className="text-sm text-zinc-400 transition hover:text-violet-300"
+          >
+            Write-ups
           </Link>
         </nav>
 
@@ -76,7 +83,7 @@ export function CyberNav() {
           href={`https://github.com/${GITHUB_USER}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden md:inline-flex items-center gap-2 rounded-xl border border-green-500/20 bg-green-500/5 px-4 py-2 text-sm transition hover:border-green-500 hover:bg-green-500/10"
+          className="hidden md:inline-flex items-center gap-2 rounded-xl border border-violet-500/25 bg-violet-500/10 px-4 py-2 text-sm transition hover:border-green-500 hover:bg-green-500/10"
         >
           <GithubIcon className="h-4 w-4" />
           GitHub
@@ -84,7 +91,7 @@ export function CyberNav() {
 
         {/* Mobile */}
 
-        <button className="ml-auto rounded-lg border border-green-500/20 p-2 md:hidden">
+        <button className="ml-auto rounded-lg border border-violet-500/25 bg-violet-500/10 p-2 md:hidden">
           <Menu className="h-5 w-5" />
         </button>
 
