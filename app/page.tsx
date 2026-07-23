@@ -14,10 +14,46 @@ export default async function HomePage() {
   );
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Background Video */}
+      <div className="fixed inset-0 -z-20 overflow-hidden">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="
+            h-full
+            w-full
+            object-cover
+            scale-110
+            opacity-30
+          "
+        >
+          <source
+            src="/videos/background_video.mp4"
+            type="video/mp4"
+          />
+        </video>
+      </div>
+
+      {/* Dark Overlay */}
+      <div
+        className="
+          fixed
+          inset-0
+          -z-10
+          bg-gradient-to-br
+          from-black/80
+          via-zinc-950/75
+          to-violet-950/70
+          backdrop-blur-[2px]
+        "
+      />
 
 
-      <main>
+      <main className="relative z-10">
         <Hero
           repoCount={repos.length}
           totalStars={totalStars}

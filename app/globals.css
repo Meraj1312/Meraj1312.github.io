@@ -250,13 +250,13 @@ transform:scale(1.15);
 
 .cyber-glow:hover{
 
-  color:#c4b5fd;
+  color:#ddd6fe;
 
   text-shadow:
-      0 0 6px rgba(139,92,246,.9),
-      0 0 18px rgba(139,92,246,.65),
-      0 0 40px rgba(139,92,246,.4),
-      0 0 70px rgba(34,197,94,.18);
+      0 0 8px rgba(168,85,247,.95),
+      0 0 24px rgba(168,85,247,.7),
+      0 0 50px rgba(139,92,246,.5),
+      0 0 80px rgba(96,165,250,.25);
 
 }
 
@@ -391,14 +391,23 @@ transform:scale(1.15);
 }
 
 .glitch-active::before{
-    color:#00ff88;
+    color:#a855f7;
+    text-shadow:
+        0 0 8px rgba(168,85,247,.95),
+        0 0 20px rgba(168,85,247,.55);
+
     transform:translate(2px,-1px);
     clip-path:inset(0 0 45% 0);
     animation:glitchTop .18s steps(2) infinite;
 }
 
 .glitch-active::after{
-    color:#ff004c;
+    color:#60a5fa;
+
+    text-shadow:
+        0 0 8px rgba(96,165,250,.9),
+        0 0 20px rgba(96,165,250,.45);
+
     transform:translate(-2px,1px);
     clip-path:inset(55% 0 0 0);
     animation:glitchBottom .18s steps(2) infinite;
