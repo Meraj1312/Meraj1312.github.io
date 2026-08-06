@@ -90,9 +90,22 @@ export const WRITEUP_META: WriteupMeta[] = [
         os: "Windows",
         difficulty: "Medium",
     },
+    {
+        slug: "beep",
+        os: "Linux",
+        difficulty: "Easy",
+    },
+    {
+        slug: "bounty",
+        os: "Windows",
+        difficulty: "Easy",
+    },
+    {
+        slug: "secnotes",
+        os: "Windows",
+        difficulty: "Medium",
+    },
     ];
-
-
 
 export function getWriteupMeta(slug: string): WriteupMeta {
   return (
