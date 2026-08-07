@@ -21,9 +21,9 @@ export const WRITEUP_META: WriteupMeta[] = [
         difficulty: "Insane",
     },
     {
-        slug: "apt",
-        os: "Windows",
-        difficulty: "Insane",
+        slug: "blocky",
+        os: "Linux",
+        difficulty: "Easy",
     },
     {
         slug: "darkzero",
