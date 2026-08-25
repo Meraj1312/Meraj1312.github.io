@@ -16,6 +16,11 @@ export const WRITEUP_META: WriteupMeta[] = [
         difficulty: "Easy",
     },
     {
+        slug: "love",
+        os: "Windows",
+        difficulty: "Easy",
+    },
+    {
         slug: "forlic",
         os: "Linux",
         difficulty: "Easy",
