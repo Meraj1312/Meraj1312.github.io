@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowUpRight,
   Circle,
@@ -10,11 +13,23 @@ import {
 import { type Repo, langColor, timeAgo } from "@/lib/github";
 
 export function RepoCard({ repo }: { repo: Repo }) {
+  const reduceMotion = useReducedMotion();
+
   return (
+    <motion.div
+      className="h-full"
+      whileHover={reduceMotion ? undefined : { y: -6, scale: 1.01 }}
+      transition={{ type: "spring", stiffness: 320, damping: 24 }}
+    >
     <Link
       href={`/repos/${repo.name}`}
       className="
         group
+        block
+        h-full
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-violet-400
         relative
         isolate
         overflow-hidden
@@ -31,8 +46,6 @@ export function RepoCard({ repo }: { repo: Repo }) {
         transition-all
         duration-500
 
-        hover:-translate-y-2
-        hover:scale-[1.02]
 
         hover:border-green-400/40
 
@@ -198,5 +211,6 @@ export function RepoCard({ repo }: { repo: Repo }) {
 
       </div>
     </Link>
+    </motion.div>
   );
 }
