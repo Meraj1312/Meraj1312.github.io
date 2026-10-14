@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 import { RepoItem } from "@/lib/github";
 import { getWriteupMeta } from "@/lib/writeups";
@@ -16,6 +17,7 @@ export default function WriteUpGallery({
   repo,
   items,
 }: Props) {
+  const reduceMotion = useReducedMotion();
   const [selectedOS, setSelectedOS] = useState("All");
   const [selectedDifficulty, setSelectedDifficulty] = useState("All");
 
@@ -94,15 +96,26 @@ export default function WriteUpGallery({
       {/* Cards */}
 
       <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+        <AnimatePresence mode="popLayout">
         {writeups.map((item) => {
           const slug = item.name.replace(".md", "").toLowerCase();
           const meta = getWriteupMeta(slug);
 
           return (
-            <Link
+            <motion.div
               key={item.path}
+              layout={!reduceMotion}
+              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
+              whileHover={reduceMotion ? undefined : { y: -6, scale: 1.01 }}
+              whileTap={reduceMotion ? undefined : { scale: 0.99 }}
+              transition={{ duration: reduceMotion ? 0 : 0.28, ease: "easeOut" }}
+              className="h-full"
+            >
+            <Link
               href={`/repos/${repo}/${item.path}`}
-              className="
+              className="block h-full
                 group
                 overflow-hidden
                 rounded-3xl
@@ -112,7 +125,6 @@ export default function WriteUpGallery({
                 backdrop-blur-xl
                 transition-all
                 duration-300
-                hover:-translate-y-2
                 hover:border-violet-500/40
                 hover:shadow-[0_0_40px_rgba(139,92,246,.25)]
               "
@@ -164,8 +176,10 @@ export default function WriteUpGallery({
                 </div>
               </div>
             </Link>
+            </motion.div>
           );
         })}
+        </AnimatePresence>
       </div>
     </section>
   );
