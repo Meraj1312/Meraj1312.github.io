@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AnimatedCard } from "@/components/animated-card";
 import {
   ArrowUpRight,
   Circle,
@@ -11,10 +12,16 @@ import { type Repo, langColor, timeAgo } from "@/lib/github";
 
 export function RepoCard({ repo }: { repo: Repo }) {
   return (
+    <AnimatedCard className="h-full">
     <Link
       href={`/repos/${repo.name}`}
       className="
         group
+        block
+        h-full
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-violet-400
         relative
         isolate
         overflow-hidden
@@ -31,8 +38,6 @@ export function RepoCard({ repo }: { repo: Repo }) {
         transition-all
         duration-500
 
-        hover:-translate-y-2
-        hover:scale-[1.02]
 
         hover:border-green-400/40
 
@@ -198,5 +203,6 @@ export function RepoCard({ repo }: { repo: Repo }) {
 
       </div>
     </Link>
+    </AnimatedCard>
   );
 }
