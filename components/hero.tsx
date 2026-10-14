@@ -1,6 +1,7 @@
 "use client";
 
 import { GlitchText } from "@/components/glitch-text";
+import { motion, useReducedMotion } from "framer-motion";
 import { Terminal } from "@/components/terminal";
 import { ArrowRight, BookOpen } from "lucide-react";
 import { GITHUB_USER } from "@/lib/github";
@@ -25,15 +26,29 @@ export function Hero({
   repoCount: number;
   totalStars: number;
 }) {
+  const reduceMotion = useReducedMotion();
+  const containerVariants = {
+    hidden: { opacity: 1 },
+    visible: { transition: { staggerChildren: reduceMotion ? 0 : 0.12 } },
+  };
+  const itemVariants = {
+    hidden: { opacity: 0, y: reduceMotion ? 0 : 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: reduceMotion ? 0 : 0.55, ease: "easeOut" as const },
+    },
+  };
+
   return (
     <section className="relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 py-20 lg:py-28">
 
-        <div className="grid items-center gap-16 lg:grid-cols-2">
+        <motion.div initial="hidden" animate="visible" variants={containerVariants} className="grid items-center gap-16 lg:grid-cols-2">
 
           {/* LEFT */}
 
-          <div>
+          <motion.div variants={itemVariants}>
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-2 text-sm text-violet-300">
               <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
               AVAILABLE FOR SECURITY WORK
@@ -116,48 +131,48 @@ export function Hero({
 
             </div>
 
-          </div>
+          </motion.div>
 
           {/* RIGHT */}
 
-          <div>
+          <motion.div variants={itemVariants}>
             <Terminal />
-          </div>
+          </motion.div>
 
-        </div>
+        </motion.div>
 
         {/* Stats */}
 
-        <div className="mt-20 grid gap-6 md:grid-cols-3">
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={containerVariants} className="mt-20 grid gap-6 md:grid-cols-3">
 
-          <div className="rounded-2xl border border-white/10 bg-black/30 p-7 backdrop-blur-xl transition-all duration-300 hover:border-violet-500/30 hover:shadow-[0_0_40px_rgba(139,92,246,.18)]">
+          <motion.div variants={itemVariants} whileHover={reduceMotion ? undefined : { y: -4 }} transition={{ type: "spring", stiffness: 320, damping: 24 }} className="rounded-2xl border border-white/10 bg-black/30 p-7 backdrop-blur-xl transition-all duration-300 hover:border-violet-500/30 hover:shadow-[0_0_40px_rgba(139,92,246,.18)]">
             <div className="text-5xl font-black text-green-500">
               {repoCount}
             </div>
             <div className="mt-2 text-zinc-400">
               Open Source Projects
             </div>
-          </div>
+          </motion.div>
 
-          <div className="rounded-2xl border border-white/10 bg-black/30 p-7 backdrop-blur-xl transition-all duration-300 hover:border-violet-500/30 hover:shadow-[0_0_40px_rgba(139,92,246,.18)]">
+          <motion.div variants={itemVariants} whileHover={reduceMotion ? undefined : { y: -4 }} transition={{ type: "spring", stiffness: 320, damping: 24 }} className="rounded-2xl border border-white/10 bg-black/30 p-7 backdrop-blur-xl transition-all duration-300 hover:border-violet-500/30 hover:shadow-[0_0_40px_rgba(139,92,246,.18)]">
             <div className="text-5xl font-black text-green-500">
               {totalStars}
             </div>
             <div className="mt-2 text-zinc-400">
               GitHub Stars
             </div>
-          </div>
+          </motion.div>
 
-          <div className="rounded-2xl border border-white/10 bg-black/30 p-7 backdrop-blur-xl transition-all duration-300 hover:border-violet-500/30 hover:shadow-[0_0_40px_rgba(139,92,246,.18)]">
+          <motion.div variants={itemVariants} whileHover={reduceMotion ? undefined : { y: -4 }} transition={{ type: "spring", stiffness: 320, damping: 24 }} className="rounded-2xl border border-white/10 bg-black/30 p-7 backdrop-blur-xl transition-all duration-300 hover:border-violet-500/30 hover:shadow-[0_0_40px_rgba(139,92,246,.18)]">
             <div className="text-5xl font-black text-green-500">
               24/7
             </div>
             <div className="mt-2 text-zinc-400">
               Learning & Research
             </div>
-          </div>
+          </motion.div>
 
-        </div>
+        </motion.div>
 
       </div>
     </section>
