@@ -1,7 +1,5 @@
-"use client";
-
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatedCard } from "@/components/animated-card";
 import {
   ArrowUpRight,
   Circle,
@@ -13,14 +11,8 @@ import {
 import { type Repo, langColor, timeAgo } from "@/lib/github";
 
 export function RepoCard({ repo }: { repo: Repo }) {
-  const reduceMotion = useReducedMotion();
-
   return (
-    <motion.div
-      className="h-full"
-      whileHover={reduceMotion ? undefined : { y: -6, scale: 1.01 }}
-      transition={{ type: "spring", stiffness: 320, damping: 24 }}
-    >
+    <AnimatedCard className="h-full">
     <Link
       href={`/repos/${repo.name}`}
       className="
@@ -211,6 +203,6 @@ export function RepoCard({ repo }: { repo: Repo }) {
 
       </div>
     </Link>
-    </motion.div>
+    </AnimatedCard>
   );
 }
