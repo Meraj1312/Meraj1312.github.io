@@ -69,6 +69,12 @@ export function CyberNav() {
           >
             Write-ups
           </Link>
+          <Link
+            href="/repos/ICS-Challenges"
+            className="text-sm text-zinc-400 transition hover:text-violet-300"
+          >
+            ICS Challenges
+          </Link>
         </nav>
 
         {/* Search */}
