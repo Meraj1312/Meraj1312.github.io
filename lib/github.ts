@@ -6,10 +6,10 @@ export const GITHUB_USER = "Meraj1312"
 
 // Projects shown on the homepage
 export const PROJECT_REPOS = [
+  "alertstack-ot",
   "alertstack-siem",
-  "cve-2018-7600-drupalgeddon2-lab",
-  "payloadforge",
-  "Write-Ups",
+  "LadderLogicLearningLab",
+  "CPTS-Cheatsheet",
 ] as const
 
 // Knowledge Base
